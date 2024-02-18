@@ -5,11 +5,11 @@ import { FaSearch } from "react-icons/fa";
 
 const Header = () => {
   return (
-    <header className="bg-slate-200 shadow-md">
+    <header className="bg-red-300 shadow-md">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
           <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
-            <span className="text-slate-500"> Mayank</span>
+            <span className="text-red-500"> Mayank</span>
             <span className="text-slate-700"> Estate </span>
           </h1>
         </Link>
