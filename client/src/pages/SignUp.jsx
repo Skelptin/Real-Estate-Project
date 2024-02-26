@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Building from '../assets/signUpBuilding.png'
+import SignUpBg from '../assets/signUpBg.jpg'
+import './SignUp.css'
+
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 const SignUp = () => {
 
@@ -10,6 +15,13 @@ const SignUp = () => {
   const [formData, setFormData] = useState({})
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+
+  const [showPassword, setShowPassword] = useState(false)
+
+
+  const handleShowPassword = () => {
+    showPassword ? setShowPassword(false) : setShowPassword(true)
+  }
 
   const handleChange = (e) => {
     setFormData({
@@ -48,53 +60,67 @@ const SignUp = () => {
     }
   };
 
-  console.log(formData)
 
   return (
-    <section>
-      <div className='p-3 max-w-lg mx-auto'>
-        <h1 className='text-3xl text-center font-semibold my-7'>Sign Up</h1>
+    <div className="relative">
 
-        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+      <section className="absolute w-full top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
+        <div className='whiteBox z-2' >a</div>
+        <div className="p-3 max-w-lg mx-auto backdrop-filter backdrop-blur-lg">
+          <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
 
-          <TextField
-            required
-            onChange={handleChange}
-            id="username" label="Username" variant="outlined" />
-          <TextField
-            required
-            onChange={handleChange}
-            id="email" label="Email" variant="outlined" />
-          <TextField
-            required
-            onChange={handleChange}
-            id="password" label="Password" variant="outlined" />
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <TextField
+              InputProps={{ sx: { borderRadius: '2rem' } }}
+              required
+              onChange={handleChange}
+              id="username"
+              label="Username"
+              variant="outlined"
+            />
+            <TextField
+              InputProps={{ sx: { borderRadius: '2rem' } }}
+              required
+              onChange={handleChange}
+              id="email"
+              label="Email"
+              variant="outlined"
+            />
+            <TextField
+              type={showPassword ? 'text' : 'password'}
+              required
+              onChange={handleChange}
+              id="password"
+              label="Password"
+              variant="outlined"
+              InputProps={{
+                sx: { borderRadius: '2rem' },
+                endAdornment: (
+                  <button type="button" onClick={handleShowPassword} id="showPassword">
+                    {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+                  </button>
+                ),
+              }}
+            />
 
-          {/* <input  onChange={handleChange} type='text' placeholder='Username'
-            className='border p-3 rounded-lg' id='username' />
-
-          <input  onChange={handleChange} type='text' placeholder='Email'
-            className='border p-3 rounded-lg' id='email' />
-
-          <input  onChange={handleChange} type='text' placeholder='Password'
-            className='border p-3 rounded-lg' id='password' /> */}
-
-          <button disabled={loading} className='bg-slate-700 text-white p-3 rounded-lg 
-            uppercase hover:opacity-95 disabled:opacity-80'>
-            {loading ? 'Loading' : 'Sign Up'}
-          </button>
-
-        </form>
-        <div className='flex gap-2 mt-5'>
-          <p className='text-color-blue'>Already Have an account?</p>
-          <Link to={'/signin'}>
-            <span className='text-blue-700'>Sign In</span>
-          </Link>
-
+            <button
+              disabled={loading}
+              className="bg-slate-700 rounded-xl text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+            >
+              {loading ? 'Loading' : 'Sign Up'}
+            </button>
+          </form>
+          <div className="flex gap-2 mt-5">
+            <p className="text-color-blue">Already Have an account?</p>
+            <Link to={'/signin'}>
+              <span className="text-blue-700">Sign In</span>
+            </Link>
+          </div>
+          {error && <p className="text-red-700">{error}</p>}
         </div>
-        {error && <p className='text-red-700'>{error}</p>}
-      </div>
-    </section>
+      </section>
+      <img src={SignUpBg} alt="background" className="w-full h-full object-cover" />
+    </div>
   )
 }
 

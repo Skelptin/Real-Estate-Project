@@ -2,15 +2,16 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
+import './Header.css'
 
 const Header = () => {
   return (
-    <header className="bg-red-300 shadow-md">
+    <header className="bg-blue-200 nav shadow-md"  >
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
           <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
-            <span className="text-red-500"> Mayank</span>
-            <span className="text-slate-700"> Estate </span>
+            <span className="text-red-500"> M</span>
+            <span className="text-slate-300"> Estate </span>
           </h1>
         </Link>
 
@@ -26,18 +27,18 @@ const Header = () => {
 
         <ul className="flex gap-4">
           <Link to="/">
-            <li className="hidden sm:inline text-slate-700 hover:underline">
+            <li className="hidden sm:inline text-white hover:underline">
               Home
             </li>
           </Link>
           <Link to="/about">
-            <li className="hidden sm:inline text-slate-700 hover:underline">
+            <li className="hidden sm:inline text-white hover:underline">
               About
             </li>
           </Link>
           <Link to="/signin">
-            <li className="hidden sm:inline text-slate-700 hover:underline">
-              Sign in
+            <li className="hidden sm:inline text-white hover:underline">
+              Sign In
             </li>
           </Link>
         </ul>
