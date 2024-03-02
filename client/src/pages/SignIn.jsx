@@ -3,6 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Building from '../assets/signUpBuilding.png'
+import { useDispatch, useSelector } from 'react-redux';
+
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice.js'
 import SignUpBg from '../assets/signUpBg.jpg'
 import './SignUp.css'
 
@@ -11,10 +14,11 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 const SignIn = () => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({})
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(false)
+
+  const { loading, error } = useSelector((state) => state.user)
 
   const [showPassword, setShowPassword] = useState(false)
 
@@ -34,7 +38,7 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
 
     e.preventDefault();
-    setLoading(true)
+    dispatch(signInStart());
     try {
 
       const res = await fetch('/api/auth/signin',
@@ -48,26 +52,24 @@ const SignIn = () => {
       );
       const data = await res.json();
       if (data.success === false) {
-        setError(data.message);
-        setLoading(false);
+        dispatch(signInFailure(data.message))
         return;
       }
-      setError(null)
-      setLoading(false)
+      dispatch(signInSuccess(data))
       navigate('/')
     } catch (err) {
-      setLoading(false)
-      console.log(err.message)
+      dispatch(signInFailure(err.message))
+
     }
   };
 
 
   return (
-    <div className="relative">
+    <div className="absolute ">
 
       <section className="absolute w-full top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
-        <div className='whiteBox z-2' >a</div>
-        <div className="p-3 max-w-lg mx-auto backdrop-filter backdrop-blur-lg">
+
+        <div className=" box p-10 max-w-lg rounded-3xl mx-auto">
           <h1 className="text-3xl text-center font-semibold my-7">Sign In</h1>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -110,7 +112,7 @@ const SignIn = () => {
               <span className="text-blue-700">Sign Up</span>
             </Link>
           </div>
-          {error && <p className="text-red-700">{error}</p>}
+          {error && <p className="text-red-700">User Not Found</p>}
         </div>
       </section>
       <img src={SignUpBg} alt="background" className="w-full h-full object-cover" />

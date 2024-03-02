@@ -66,8 +66,8 @@ const SignUp = () => {
     <div className="relative">
 
       <section className="absolute w-full top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
-        <div className='whiteBox z-2' >a</div>
-        <div className="p-3 max-w-lg mx-auto backdrop-filter backdrop-blur-lg">
+        
+      <div className=" box p-10 transparent max-w-lg rounded-3xl mx-auto backdrop-filter backdrop-blur-lg">
           <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
