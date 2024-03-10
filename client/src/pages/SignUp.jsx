@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import Building from '../assets/signUpBuilding.png'
 import SignUpBg from '../assets/signUpBg.jpg'
 import './SignUp.css'
+import OAuth from '../components/OAuth';
 
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
@@ -66,8 +67,8 @@ const SignUp = () => {
     <div className="relative">
 
       <section className="absolute w-full top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
-        
-      <div className=" box p-10 transparent max-w-lg rounded-3xl mx-auto backdrop-filter backdrop-blur-lg">
+
+        <div className=" box p-10 transparent max-w-lg rounded-3xl mx-auto backdrop-filter backdrop-blur-lg">
           <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -110,6 +111,8 @@ const SignUp = () => {
             >
               {loading ? 'Loading' : 'Sign Up'}
             </button>
+
+            <OAuth />
           </form>
           <div className="flex gap-2 mt-5">
             <p className="text-color-blue">Already Have an account?</p>

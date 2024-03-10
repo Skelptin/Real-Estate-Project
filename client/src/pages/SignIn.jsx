@@ -5,9 +5,10 @@ import TextField from '@mui/material/TextField';
 import Building from '../assets/signUpBuilding.png'
 import { useDispatch, useSelector } from 'react-redux';
 
-import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice.js'
-import SignUpBg from '../assets/signUpBg.jpg'
-import './SignUp.css'
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice.js';
+import SignUpBg from '../assets/signUpBg.jpg';
+import './SignUp.css';
+import OAuth from '../components/OAuth';
 
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
@@ -105,6 +106,7 @@ const SignIn = () => {
             >
               {loading ? 'Loading' : 'Sign In'}
             </button>
+            <OAuth />
           </form>
           <div className="flex gap-2 mt-5">
             <p className="text-color-blue">Dont have an account?</p>
