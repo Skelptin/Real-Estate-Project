@@ -36,9 +36,6 @@ const OAuth = () => {
             console.log(data)
             dispatch(signInSuccess(data))
             navigate('/')
-
-
-
         } catch (err) {
             console.log('Could not sign in with google', err)
         }
@@ -48,7 +45,7 @@ const OAuth = () => {
     return (
         <div>
 
-            <button type='button' onClick={handleGoogleClick} className='bg-red-700  text-white w-full rounded-lg p-3 text-center uppercase hover:opacity-95'>
+            <button type='button' onClick={handleGoogleClick} className='bg-red-700  text-white w-full rounded-lg p-3 text-center uppercase hover:opacity-90'>
                 Continue With Google
             </button>
 

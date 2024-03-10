@@ -2,9 +2,19 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+
 import './Header.css'
+import { current } from "@reduxjs/toolkit";
 
 const Header = () => {
+
+
+  const { currentUser } = useSelector((state) => state.user)
+
+  console.log(currentUser)
+
+
   return (
     <header className="bg-blue-200 nav shadow-md"  >
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
@@ -36,10 +46,25 @@ const Header = () => {
               About
             </li>
           </Link>
-          <Link to="/signin">
-            <li className="hidden sm:inline text-white hover:underline">
-              Sign In
-            </li>
+          <Link to="/profile">
+            {
+              currentUser ?
+                (
+                  <img
+                    src={currentUser.avatar}
+                    alt='profile'
+                    width='35px '
+                    className="rounded-3xl h-7 w-7 object-cover"
+                  />
+                )
+                : (
+
+                  <li className="hidden sm:inline text-white hover:underline">
+                    Sign In
+                  </li>
+
+                )
+            }
           </Link>
         </ul>
       </div>
