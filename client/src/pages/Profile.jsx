@@ -1,19 +1,61 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useRef } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
+import { updateUserFailure, updateUserSuccess, updateUserStart } from '../redux/user/userSlice';
+
+
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 const Profile = () => {
 
   const fileRef = useRef(null);
+  const dispatch = useDispatch();
 
-  const { currentUser } = useSelector((state) => state.user)
+  const { currentUser, loading, error } = useSelector((state) => state.user)
+
+
 
   const [filePerc, setFilePerc] = useState('')
   const [fileError, setFileError] = useState(undefined)
   const [file, setFile] = useState(undefined)
   const [formData, setFormData] = useState({})
+  console.log(formData)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+
+      dispatch(updateUserStart());
+
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await res.json();
+
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message))
+      }
+
+      dispatch(updateUserSuccess(data))
+
+    } catch (err) {
+      dispatch(updateUserFailure(err.message))
+    }
+  }
+
+  const handleChange = (e) => {
+
+    setFormData({ ...formData, [e.target.id]: e.target.value })
+
+  }
 
 
   const handleFileUpload = (file) => {
@@ -52,7 +94,7 @@ const Profile = () => {
         Profile
       </h1>
 
-      <form className='flex flex-col gap-3'>
+      <form className='flex flex-col gap-3' onSubmit={handleSubmit}>
         <input accept='image/*'
           onChange={(e) => setFile(e.target.files[0])}
           hidden type='file' ref={fileRef} />
@@ -83,32 +125,41 @@ const Profile = () => {
         </p>
 
         <input
+          defaultValue={currentUser.username}
           id='username'
           className='mt-6 h-12 rounded-xl w-full'
           type='text'
           placeholder='Username'
+          onChange={handleChange}
         />
         <input
+          defaultValue={currentUser.email}
           id='email'
           className='mt-6 h-12 rounded-xl w-full'
           type='email'
           placeholder='Email'
+          onChange={handleChange}
         />
         <input
           id='password'
           className='mt-6 h-12 rounded-xl w-full'
           type='password'
           placeholder='Password'
+          onChange={handleChange}
         />
 
-        <button className='bg-slate-700 text-white h-12 mt-6 rounded-2xl uppercase'>update</button>
+        <button disabled={loading} className='bg-slate-700 text-white h-12 mt-6 rounded-2xl uppercase'>{loading ? <CircularProgress /> : 'Update'}</button>
         <button className='bg-green-600 text-white h-12 mt-2 rounded-2xl'>Create Listing</button>
 
-        <div className='flex justify-between mt-3 text-red-700'>
-          <button>Delete Account</button>
-          <button>Sign Out</button>
-        </div>
       </form>
+      <div className='flex justify-between mt-3 text-red-700'>
+        <button>Delete Account</button>
+        <button>Sign Out</button>
+      </div>
+
+      <p className='text-red-700'>{error ? error : ''}</p>
+      <p className='text-green-700'>{!error && 'Successfully Updated!'}</p>
+
     </div>
   )
 }
