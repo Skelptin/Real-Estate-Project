@@ -3,16 +3,24 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRef } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
-import { updateUserFailure, updateUserSuccess, updateUserStart } from '../redux/user/userSlice';
-
+import { updateUserFailure, updateUserSuccess, updateUserStart, deleteUserFailure, deleteUserStart, deleteUserSuccess } from '../redux/user/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 import CircularProgress from '@mui/material/CircularProgress';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import localStorage from 'redux-persist/es/storage';
 
 
 const Profile = () => {
 
   const fileRef = useRef(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { currentUser, loading, error } = useSelector((state) => state.user)
 
@@ -22,7 +30,18 @@ const Profile = () => {
   const [fileError, setFileError] = useState(undefined)
   const [file, setFile] = useState(undefined)
   const [formData, setFormData] = useState({})
-  console.log(formData)
+  const [updateSuccess, setUpdateSuccess] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
+
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  }
+
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,6 +64,7 @@ const Profile = () => {
       }
 
       dispatch(updateUserSuccess(data))
+      setUpdateSuccess(true)
 
     } catch (err) {
       dispatch(updateUserFailure(err.message))
@@ -57,6 +77,32 @@ const Profile = () => {
 
   }
 
+  const handleDelete = async (e) => {
+    try {
+
+      dispatch(deleteUserStart());
+
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE'
+      })
+
+      const data = await res.json();
+
+      if (data.success === false) {
+        handleCloseDialog();
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+      handleCloseDialog();
+      navigate('/signin')
+     
+    } catch (err) {
+   
+      dispatch(deleteUserFailure((err.message)));
+     
+    }
+  }
 
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
@@ -88,79 +134,130 @@ const Profile = () => {
     }
   }, [file])
 
+  useEffect(() => {
+    setTimeout(() => {
+      setUpdateSuccess(false)
+    }, 2000)
+
+  }, [updateSuccess])
+
   return (
-    <div className='p-3 max-w-lg mx-auto'>
-      <h1 className='text-3xl my-7 font-semibold text-center'>
-        Profile
-      </h1>
+    <>
 
-      <form className='flex flex-col gap-3' onSubmit={handleSubmit}>
-        <input accept='image/*'
-          onChange={(e) => setFile(e.target.files[0])}
-          hidden type='file' ref={fileRef} />
-        <img
-          onClick={() => fileRef.current.click()}
-          src={currentUser.avatar}
-          className="rounded-full flex cursor-pointer self-center mt-2 h-24 w-24 object-cover"
-          alt='Profile'
-        />
+      {/* Dialog Box to Delete */}
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Delete Account"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are You Sure, you want to delete your account?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}
+            sx={{
+              backgroundColor: '#ed1313',
+              '&:hover': {
+                backgroundColor: '#f23a3a'
+              },
+              color: 'white'
+            }}
+          >Disagree</Button>
+          <Button onClick={handleDelete} autoFocus
+            sx={{
+              backgroundColor: '#1ddb2c',
+              '&:hover': {
+                backgroundColor: '#23ad2e'
+              },
+              color: 'white'
+            }}
+          >
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-        <p className='text-sm self-center'>
-          {
-            fileError ?
-              (<span className='text-red-700'>Error while uploading image</span>)
-              :
-              filePerc > 0 && filePerc < 100 ? (
-                <span>
-                  {`Uploading ${filePerc}%`}
-                </span>)
+
+      <div className='p-3 max-w-lg mx-auto'>
+        <h1 className='text-3xl my-7 font-semibold text-center'>
+          Profile
+        </h1>
+
+        <form className='flex flex-col gap-3' onSubmit={handleSubmit}>
+          <input accept='image/*'
+            onChange={(e) => setFile(e.target.files[0])}
+            hidden type='file' ref={fileRef} />
+          <img
+            onClick={() => fileRef.current.click()}
+            src={currentUser.avatar}
+            className="rounded-full flex cursor-pointer self-center mt-2 h-24 w-24 object-cover"
+            alt='Profile'
+          />
+
+          <p className='text-sm self-center'>
+            {
+              fileError ?
+                (<span className='text-red-700'>Error while uploading image</span>)
                 :
-                (filePerc === 100 ? (
-                  <span className='text-green-700'>
-                    Successfully Uploaded!!
-                  </span>
-                ) : ""
-                )
-          }
-        </p>
+                filePerc > 0 && filePerc < 100 ? (
+                  <span>
+                    {`Uploading ${filePerc}%`}
+                  </span>)
+                  :
+                  (filePerc === 100 ? (
+                    <span className='text-green-700'>
+                      Successfully Uploaded!!
+                    </span>
+                  ) : ""
+                  )
+            }
+          </p>
+          <input
+            defaultValue={currentUser.username}
+            id='username'
+            className='mt-6 h-12 rounded-xl w-full'
+            type='text'
+            placeholder='Username'
+            onChange={handleChange}
+          />
+          <input
+            defaultValue={currentUser.email}
+            id='email'
+            className='mt-6 h-12 rounded-xl w-full'
+            type='email'
+            placeholder='Email'
+            onChange={handleChange}
+          />
+          <input
+            id='password'
+            className='mt-6 h-12 rounded-xl w-full'
+            type='password'
+            placeholder='Password'
+            onChange={handleChange}
+          />
 
-        <input
-          defaultValue={currentUser.username}
-          id='username'
-          className='mt-6 h-12 rounded-xl w-full'
-          type='text'
-          placeholder='Username'
-          onChange={handleChange}
-        />
-        <input
-          defaultValue={currentUser.email}
-          id='email'
-          className='mt-6 h-12 rounded-xl w-full'
-          type='email'
-          placeholder='Email'
-          onChange={handleChange}
-        />
-        <input
-          id='password'
-          className='mt-6 h-12 rounded-xl w-full'
-          type='password'
-          placeholder='Password'
-          onChange={handleChange}
-        />
+          <button disabled={loading} className='bg-slate-700 text-white h-12 mt-6 rounded-2xl uppercase'>{loading ? <CircularProgress /> : 'Update'}</button>
+          <button className='bg-green-600 text-white h-12 mt-2 rounded-2xl'>Create Listing</button>
 
-        <button disabled={loading} className='bg-slate-700 text-white h-12 mt-6 rounded-2xl uppercase'>{loading ? <CircularProgress /> : 'Update'}</button>
-        <button className='bg-green-600 text-white h-12 mt-2 rounded-2xl'>Create Listing</button>
+        </form>
+        <div className='flex justify-between mt-3 text-red-700'>
+          <button onClick={handleOpenDialog}>Delete Account</button>
+          <button>Sign Out</button>
+        </div>
 
-      </form>
-      <div className='flex justify-between mt-3 text-red-700'>
-        <button>Delete Account</button>
-        <button>Sign Out</button>
+        <p className='text-red-700'>{error ? error : ''}</p>
+        <p className='text-green-700 text-center'>{updateSuccess && 'Successfully Updated!'}</p>
+
       </div>
 
-      <p className='text-red-700'>{error ? error : ''}</p>
-      <p className='text-green-700'>{!error && 'Successfully Updated!'}</p>
+    </>
 
-    </div>
   )
 }
 
