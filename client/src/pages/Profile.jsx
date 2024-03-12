@@ -3,8 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRef } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
-import { updateUserFailure, updateUserSuccess, updateUserStart, deleteUserFailure, deleteUserStart, deleteUserSuccess } from '../redux/user/userSlice';
-import { useNavigate } from 'react-router-dom';
+import {
+  updateUserFailure, updateUserSuccess, updateUserStart,
+  deleteUserFailure, deleteUserStart, deleteUserSuccess,
+  signOutFailure, signOutStart, signOutSuccess
+} from '../redux/user/userSlice';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
@@ -13,14 +16,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import localStorage from 'redux-persist/es/storage';
+
 
 
 const Profile = () => {
 
   const fileRef = useRef(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const { currentUser, loading, error } = useSelector((state) => state.user)
 
@@ -41,6 +43,30 @@ const Profile = () => {
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
+  }
+
+
+  const handleSignOut = async () => {
+    try {
+
+      dispatch(signOutStart());
+
+      const res = await fetch('/api/auth/signout', {
+        method: 'GET',
+      })
+
+      const data = await res.json();
+
+      if (data.success === false) {
+        dispatch(signOutFailure(data.message));
+        return;
+      }
+
+      dispatch(signOutSuccess(data))
+
+    } catch (err) {
+      dispatch(signOutFailure(err.message))
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -95,12 +121,11 @@ const Profile = () => {
       }
       dispatch(deleteUserSuccess(data));
       handleCloseDialog();
-      navigate('/signin')
-     
+
     } catch (err) {
-   
+
       dispatch(deleteUserFailure((err.message)));
-     
+
     }
   }
 
@@ -248,7 +273,7 @@ const Profile = () => {
         </form>
         <div className='flex justify-between mt-3 text-red-700'>
           <button onClick={handleOpenDialog}>Delete Account</button>
-          <button>Sign Out</button>
+          <button onClick={handleSignOut}>Sign Out</button>
         </div>
 
         <p className='text-red-700'>{error ? error : ''}</p>
