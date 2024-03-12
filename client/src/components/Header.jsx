@@ -5,14 +5,13 @@ import { FaSearch } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 
 import './Header.css'
-import { current } from "@reduxjs/toolkit";
 
 const Header = () => {
 
 
   const { currentUser } = useSelector((state) => state.user)
 
-  console.log(currentUser)
+
 
 
   return (
