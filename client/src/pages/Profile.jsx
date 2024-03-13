@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRef } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
@@ -23,6 +24,7 @@ const Profile = () => {
 
   const fileRef = useRef(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { currentUser, loading, error } = useSelector((state) => state.user)
 
@@ -35,6 +37,11 @@ const Profile = () => {
   const [updateSuccess, setUpdateSuccess] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
 
+
+  const handleListing = () => {
+    navigate('/create-listing')
+
+  }
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -268,7 +275,7 @@ const Profile = () => {
           />
 
           <button disabled={loading} className='bg-slate-700 text-white h-12 mt-6 rounded-2xl uppercase'>{loading ? <CircularProgress /> : 'Update'}</button>
-          <button className='bg-green-600 text-white h-12 mt-2 rounded-2xl'>Create Listing</button>
+          <button type='button' onClick={handleListing} className='bg-green-600 text-white h-12 mt-2 rounded-2xl'>Create Listing</button>
 
         </form>
         <div className='flex justify-between mt-3 text-red-700'>
