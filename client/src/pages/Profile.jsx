@@ -153,7 +153,7 @@ const Profile = () => {
         setFileError(error)
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.red).then((downloadURL) => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setFormData({ ...formData, avatar: downloadURL });
         })
       }
