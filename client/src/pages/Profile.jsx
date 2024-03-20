@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRef } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
@@ -9,7 +9,8 @@ import {
   deleteUserFailure, deleteUserStart, deleteUserSuccess,
   signOutFailure, signOutStart, signOutSuccess
 } from '../redux/user/userSlice';
-
+import { MdDeleteForever } from "react-icons/md";
+import { AiOutlineEdit } from "react-icons/ai";
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -36,7 +37,10 @@ const Profile = () => {
   const [formData, setFormData] = useState({})
   const [updateSuccess, setUpdateSuccess] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
+  const [showListingError, setShowListingError] = useState(false)
+  const [listingData, setListingData] = useState([])
 
+  console.log(listingData)
 
   const handleListing = () => {
     navigate('/create-listing')
@@ -159,6 +163,25 @@ const Profile = () => {
       }
     )
   };
+
+
+  const handleShowListing = async () => {
+    try {
+      setShowListingError(false)
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setShowListingError(true);
+        return;
+      }
+
+      setListingData(data);
+
+    } catch (err) {
+      setShowListingError(true);
+    }
+  }
+
 
   useEffect(() => {
     if (file) {
@@ -285,6 +308,35 @@ const Profile = () => {
 
         <p className='text-red-700'>{error ? error : ''}</p>
         <p className='text-green-700 text-center'>{updateSuccess && 'Successfully Updated!'}</p>
+
+        <button onClick={handleShowListing} className='text-green-700 w-full mt-5'>Show your listings </button>
+        <p className='tetx-red-700 mt-5'>{showListingError ? 'Error showing listings' : ''}</p>
+
+        {
+
+          listingData && listingData.length > 0 &&
+          <div className='flex flex-col gap-4'>
+            <h1 className='text-center my-7 text-2xl font-semibold'>Your Listing</h1>
+            {listingData.map((listing, index) => (
+              <div className='border rounded-lg p-3 flex justify-between items-center gap-4' key={listing._id}>
+                <Link to={`/listing/${listing._id}`}>
+                  <img className='w-16 h-16 object-contain' src={listing.imageUrls[0]} alt='Propert Image' />
+                </Link>
+                <Link className='text-slate-700 font-semibold flex-1 hover:underline 
+                truncate' to={`/listing/${listing._id}`}>
+                  <p >
+                    {listing.name}
+                  </p>
+                </Link>
+                <div className='flex flex-col items-center'>
+                  <button className='bg-red-700 '><MdDeleteForever /></button>
+                  <button className='text-green-700'><AiOutlineEdit /></button>
+                </div>
+
+              </div>
+            ))}
+          </div>
+        }
 
       </div>
 
