@@ -11,4 +11,5 @@ router.get("/test", test);
 router.get("/listings/:id", verifyToken, getUserListings)
 
 
+
 export default router;

@@ -40,6 +40,7 @@ const Profile = () => {
   const [showListingError, setShowListingError] = useState(false)
   const [listingData, setListingData] = useState([])
 
+
   console.log(listingData)
 
   const handleListing = () => {
@@ -182,6 +183,26 @@ const Profile = () => {
     }
   }
 
+  const handleDeleteListing = async (id) => {
+    try {
+
+      const res = await fetch(`/api/listing/delete/${id}`, {
+        method: 'DELETE'
+      })
+      const data = await res.json();
+      if (data.success === false) {
+        console.log()
+        return
+      }
+
+      setListingData((prev) => prev.filter((listing) => listing._id !== id))
+
+    } catch (err) {
+      console.log(err)
+    }
+
+  }
+
 
   useEffect(() => {
     if (file) {
@@ -313,7 +334,6 @@ const Profile = () => {
         <p className='tetx-red-700 mt-5'>{showListingError ? 'Error showing listings' : ''}</p>
 
         {
-
           listingData && listingData.length > 0 &&
           <div className='flex flex-col gap-4'>
             <h1 className='text-center my-7 text-2xl font-semibold'>Your Listing</h1>
@@ -329,10 +349,9 @@ const Profile = () => {
                   </p>
                 </Link>
                 <div className='flex flex-col items-center'>
-                  <button className='bg-red-700 '><MdDeleteForever /></button>
-                  <button className='text-green-700'><AiOutlineEdit /></button>
+                  <button title='Delete' className='' onClick={() => handleDeleteListing(listing._id)}><MdDeleteForever className='w-8 h-8 hover:opacity-80' /></button>
+                  <button title='Edit' className=''><AiOutlineEdit className='w-8 h-8 hover:opacity-80' /></button>
                 </div>
-
               </div>
             ))}
           </div>
