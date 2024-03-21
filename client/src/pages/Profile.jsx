@@ -350,7 +350,9 @@ const Profile = () => {
                 </Link>
                 <div className='flex flex-col items-center'>
                   <button title='Delete' className='' onClick={() => handleDeleteListing(listing._id)}><MdDeleteForever className='w-8 h-8 hover:opacity-80' /></button>
-                  <button title='Edit' className=''><AiOutlineEdit className='w-8 h-8 hover:opacity-80' /></button>
+                  <Link to={`/update-listing/${listing._id}`}>
+                    <button title='Edit' className=''><AiOutlineEdit className='w-8 h-8 hover:opacity-80' /></button>
+                  </Link>
                 </div>
               </div>
             ))}
