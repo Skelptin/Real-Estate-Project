@@ -55,7 +55,7 @@ const Listing = () => {
     }, [params.listingId])
 
     return (
-        <main>
+        <main className='text-slate-500'>
             {loading && <p className='text-center my-7 text-2xl'>Loading...</p>}
             {error && <p className='text-center my-7 text-2xl'>Something went wrong!</p>}
 
@@ -117,8 +117,8 @@ const Listing = () => {
                                     </p>
                                 )}
                             </div>
-                            <p className='text-slate-800'>
-                                <span className='font-semibold text-black'>Description - </span>
+                            <p className='text-slate-400'>
+                                <span className='font-semibold text-slate-300'>Description - </span>
                                 {listing.description}
                             </p>
                             <ul className='text-green-900 font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6'>

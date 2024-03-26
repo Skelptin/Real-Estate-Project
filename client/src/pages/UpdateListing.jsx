@@ -181,7 +181,7 @@ const UpdateListing = () => {
     }, [])
 
     return (
-        <main className='p-3 max-w-4xl mx-auto items-center'>
+        <main className=' text-slate-400 p-3 max-w-4xl mx-auto items-center'>
             <h1 className='text-center text-3xl m-7 font-semibold'>
                 Update the Listing
             </h1>
@@ -189,7 +189,7 @@ const UpdateListing = () => {
                 <div className='items-center flex flex-col gap-4 flex-1'>
                     <input placeholder='Name'
                         type='text'
-                        className='h-12 rounded-xl w-full'
+                        className='h-12 text-slate-900 placeholder:text-slate-800 bg-slate-500 rounded-xl w-full'
                         maxLength='62'
                         minLength='10'
                         id='name'
@@ -200,7 +200,7 @@ const UpdateListing = () => {
                     <input
                         type='textarea'
                         placeholder='Description'
-                        className='mt-6 h-20 rounded-xl w-full'
+                        className='mt-6 h-20 text-slate-900 placeholder:text-slate-800 bg-slate-500 rounded-xl w-full'
                         id='description'
                         required
                         onChange={handleChange}
@@ -209,7 +209,7 @@ const UpdateListing = () => {
                     <input
                         type='text'
                         placeholder='Address'
-                        className='mt-6 h-12 rounded-xl w-full'
+                        className='mt-6 h-12 text-slate-900 placeholder:text-slate-800 bg-slate-500 rounded-xl w-full'
                         id='address'
                         required
                         onChange={handleChange}
@@ -271,7 +271,7 @@ const UpdateListing = () => {
                             max='10'
                             id='bedrooms'
                             type='number'
-                            className=' h-12 rounded-md w-1/6'
+                            className=' h-12 text-slate-900 placeholder:text-slate-800 bg-slate-500 rounded-md w-1/6'
                             placeholder='Beds'
                             onChange={handleChange}
                             value={formData.bedrooms}
@@ -281,7 +281,7 @@ const UpdateListing = () => {
                             required
                             type='number'
                             id='bathrooms'
-                            className=' h-12 rounded-1md w-1/6'
+                            className=' h-12 text-slate-900 placeholder:text-slate-800 bg-slate-500 rounded-1md w-1/6'
                             placeholder='Baths'
                             onChange={handleChange}
                             value={formData.bathrooms}
@@ -294,7 +294,7 @@ const UpdateListing = () => {
                         </label>
                         <input
                             type='number'
-                            className=' h-12 rounded-md w-1/2'
+                            className=' h-12 text-slate-900 placeholder:text-slate-800 bg-slate-500 rounded-md w-1/2'
                             id='regularPrice'
                             placeholder='Price'
                             value={formData.regularPrice}
@@ -311,7 +311,7 @@ const UpdateListing = () => {
                                     </label>
                                     <input
                                         type='number'
-                                        className=' h-12 rounded-md w-1/2'
+                                        className=' h-12 text-slate-900 placeholder:text-slate-800 bg-slate-500 rounded-md w-1/2'
                                         placeholder='Price'
                                         id='discountPrice'
                                         min='0'
@@ -358,7 +358,7 @@ const UpdateListing = () => {
                         ))
                     }
 
-                    <button disabled={loading || uploading} className='p-3 mt-5 bg-slate-700 text-white  rounded-lg uppercase hover:opacity-90 disabled:opacity-80'>
+                    <button disabled={loading || uploading} className='p-3 mt-5 bg-slate-800 text-white  rounded-lg uppercase hover:opacity-90 disabled:opacity-80'>
                         {loading ? 'Updating...' : 'Update Listing'}
                     </button>
                     {error && <p className='text-red-700 text-sm'>{error}</p>}

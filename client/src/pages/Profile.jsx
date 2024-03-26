@@ -260,8 +260,9 @@ const Profile = () => {
       </Dialog>
 
 
-      <div className='p-3 max-w-lg mx-auto'>
-        <h1 className='text-3xl my-7 font-semibold text-center'>
+      <div className=' min-h-screen p-3 max-w-lg mx-auto'>
+        <h1 className='text-3xl my-7 font-semibold text-slate-400
+         text-center '>
           Profile
         </h1>
 
@@ -297,7 +298,7 @@ const Profile = () => {
           <input
             defaultValue={currentUser.username}
             id='username'
-            className='mt-6 h-12 rounded-xl w-full'
+            className='mt-6 bg-slate-400 h-12 rounded-xl w-full placeholder:text-slate-900'
             type='text'
             placeholder='Username'
             onChange={handleChange}
@@ -305,14 +306,14 @@ const Profile = () => {
           <input
             defaultValue={currentUser.email}
             id='email'
-            className='mt-6 h-12 rounded-xl w-full'
+            className='mt-6 bg-slate-400  h-12 rounded-xl w-full placeholder:text-slate-900'
             type='email'
             placeholder='Email'
             onChange={handleChange}
           />
           <input
             id='password'
-            className='mt-6 h-12 rounded-xl w-full'
+            className='mt-6 bg-slate-400  h-12 rounded-xl w-full placeholder:text-slate-900'
             type='password'
             placeholder='Password'
             onChange={handleChange}
@@ -335,27 +336,30 @@ const Profile = () => {
 
         {
           listingData && listingData.length > 0 &&
-          <div className='flex flex-col gap-4'>
-            <h1 className='text-center my-7 text-2xl font-semibold'>Your Listing</h1>
-            {listingData.map((listing, index) => (
-              <div className='border rounded-lg p-3 flex justify-between items-center gap-4' key={listing._id}>
-                <Link to={`/listing/${listing._id}`}>
-                  <img className='w-16 h-16 object-contain' src={listing.imageUrls[0]} alt='Propert Image' />
-                </Link>
-                <Link className='text-slate-700 font-semibold flex-1 hover:underline 
-                truncate' to={`/listing/${listing._id}`}>
-                  <p >
-                    {listing.name}
-                  </p>
-                </Link>
-                <div className='flex flex-col items-center'>
-                  <button title='Delete' className='' onClick={() => handleDeleteListing(listing._id)}><MdDeleteForever className='w-8 h-8 hover:opacity-80' /></button>
-                  <Link to={`/update-listing/${listing._id}`}>
-                    <button title='Edit' className=''><AiOutlineEdit className='w-8 h-8 hover:opacity-80' /></button>
+          <div className=''>
+            <h1 className='text-center my-7 text-2xl text-slate-500 font-semibold'>Your Listing</h1>
+            <div className='h-[500px] overflow-auto flex flex-col gap-4 '>
+              {listingData.map((listing, index) => (
+                <div className='border rounded-lg p-3 flex justify-between items-center gap-4' key={listing._id}>
+                  <Link to={`/listing/${listing._id}`}>
+                    <img className='w-16 h-16 object-contain' src={listing.imageUrls[0]} alt='Propert Image' />
                   </Link>
+                  <Link className='text-slate-700 font-semibold flex-1 hover:underline 
+                truncate' to={`/listing/${listing._id}`}>
+                    <p >
+                      {listing.name}
+                    </p>
+                  </Link>
+                  <div className='flex flex-col items-center'>
+                    <button title='Delete' className='' onClick={() => handleDeleteListing(listing._id)}><MdDeleteForever className='w-8 text-red-700 h-8 hover:opacity-80' /></button>
+                    <Link to={`/update-listing/${listing._id}`}>
+                      <button title='Edit' className=''><AiOutlineEdit className='w-8 h-8 text-green-700 hover:opacity-80' /></button>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
+
+              ))}
+            </div>
           </div>
         }
 

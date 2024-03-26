@@ -44,9 +44,9 @@ const Header = () => {
           </h1>
         </Link>
 
-        <form onSubmit={handleSubmit} className="bg-slate-100 p-3 rounded-lg flex items-center">
+        <form onSubmit={handleSubmit} className="bg-slate-500 p-3 rounded-lg flex items-center">
           <input
-            className="bg-transparent focus:outline-none w-24 sm:w-64"
+            className="bg-slate-500 bg-transparent placeholder:text-slate-100 focus:outline-none w-24 sm:w-64"
             type="text"
             placeholder="Search..."
             value={searchTerm}

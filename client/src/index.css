@@ -7,6 +7,7 @@ body {
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: rgb(241, 245, 241);
+    background: rgb(7, 25, 35);
+    background: linear-gradient(259deg, rgba(7, 25, 35, 1) 0%, rgba(7, 25, 35, 1) 14%, rgba(0, 0, 0, 1) 100%);
     font-family: poppins;
 }

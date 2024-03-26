@@ -160,7 +160,7 @@ const CreateListing = () => {
     }
 
     return (
-        <main className='p-3 max-w-4xl mx-auto items-center'>
+        <main className='p-3 max-w-4xl mx-auto items-center text-slate-400'>
             <h1 className='text-center text-3xl m-7 font-semibold'>
                 Create a Listing
             </h1>
@@ -168,7 +168,7 @@ const CreateListing = () => {
                 <div className='items-center flex flex-col gap-4 flex-1'>
                     <input placeholder='Name'
                         type='text'
-                        className='h-12 rounded-xl w-full'
+                        className='h-12 text-slate-900 bg-slate-400 placeholder:text-slate-900 rounded-xl w-full'
                         maxLength='62'
                         minLength='10'
                         id='name'
@@ -179,7 +179,7 @@ const CreateListing = () => {
                     <input
                         type='textarea'
                         placeholder='Description'
-                        className='mt-6 h-20 rounded-xl w-full'
+                        className='mt-6 text-slate-900 bg-slate-400 placeholder:text-slate-900 h-20 rounded-xl w-full'
                         id='description'
                         required
                         onChange={handleChange}
@@ -188,7 +188,7 @@ const CreateListing = () => {
                     <input
                         type='text'
                         placeholder='Address'
-                        className='mt-6 h-12 rounded-xl w-full'
+                        className='mt-6 text-slate-900 bg-slate-400 placeholder:text-slate-900 h-12 rounded-xl w-full'
                         id='address'
                         required
                         onChange={handleChange}
@@ -202,7 +202,7 @@ const CreateListing = () => {
                                 id='sale'
                                 onChange={handleChange}
                                 checked={formData.type === 'sale'}
-                            /> <label>sale</label>
+                            /> <label>Sell</label>
                         </div>
                         <div>
                             <input
@@ -233,7 +233,7 @@ const CreateListing = () => {
                         </div>
                         <div>
                             <input
-                                className='w-9 h-5'
+                                className='w-9 h-5 '
                                 type='checkbox'
                                 id='offer'
                                 onChange={handleChange}
@@ -250,7 +250,7 @@ const CreateListing = () => {
                             max='10'
                             id='bedrooms'
                             type='number'
-                            className=' h-12 rounded-md w-1/6'
+                            className=' bg-slate-400 text-slate-900 placeholder:text-slate-900 h-12 rounded-md w-1/6'
                             placeholder='Beds'
                             onChange={handleChange}
                             value={formData.bedrooms}
@@ -260,7 +260,7 @@ const CreateListing = () => {
                             required
                             type='number'
                             id='bathrooms'
-                            className=' h-12 rounded-1md w-1/6'
+                            className=' bg-slate-400 text-slate-900 placeholder:text-slate-900 h-12 rounded-1md w-1/6'
                             placeholder='Baths'
                             onChange={handleChange}
                             value={formData.bathrooms}
@@ -273,7 +273,7 @@ const CreateListing = () => {
                         </label>
                         <input
                             type='number'
-                            className=' h-12 rounded-md w-1/2'
+                            className=' bg-slate-400 text-slate-900 placeholder:text-slate-900 h-12 rounded-md w-1/2'
                             id='regularPrice'
                             placeholder='Price'
                             value={formData.regularPrice}
@@ -290,7 +290,7 @@ const CreateListing = () => {
                                     </label>
                                     <input
                                         type='number'
-                                        className=' h-12 rounded-md w-1/2'
+                                        className=' h-12 text-slate-900 placeholder:text-slate-900 rounded-md w-1/2'
                                         placeholder='Price'
                                         id='discountPrice'
                                         min='0'
