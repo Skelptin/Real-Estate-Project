@@ -66,9 +66,9 @@ const SignIn = () => {
 
 
   return (
-    <div className="absolute ">
+    <div className="min-h-screen text-slate-500 m-5 ">
 
-      <section className="absolute w-full top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
+      <section className="">
 
         <div className=" box p-10 max-w-lg rounded-3xl mx-auto">
           <h1 className="text-3xl text-center font-semibold my-7">Sign In</h1>
@@ -76,12 +76,14 @@ const SignIn = () => {
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
             <TextField
-              InputProps={{ sx: { borderRadius: '2rem' } }}
+              InputProps={{ sx: { color: 'white', borderRadius: '2rem' } }}
               required
+
               onChange={handleChange}
               id="email"
               label="Email"
               variant="outlined"
+
             />
             <TextField
               type={showPassword ? 'text' : 'password'}
@@ -91,7 +93,7 @@ const SignIn = () => {
               label="Password"
               variant="outlined"
               InputProps={{
-                sx: { borderRadius: '2rem' },
+                sx: { color: 'white', borderRadius: '2rem' },
                 endAdornment: (
                   <button type="button" onClick={handleShowPassword} id="showPassword">
                     {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
@@ -117,7 +119,7 @@ const SignIn = () => {
           {error && <p className="text-red-700">User Not Found</p>}
         </div>
       </section>
-      <img src={SignUpBg} alt="background" className="w-full h-full object-cover" />
+
     </div>
   )
 }

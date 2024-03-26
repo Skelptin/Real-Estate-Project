@@ -64,16 +64,16 @@ const SignUp = () => {
 
 
   return (
-    <div className="relative">
+    <div className="m-5 text-slate-500">
 
-      <section className="absolute w-full top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
+      <section className="">
 
         <div className=" box p-10 transparent max-w-lg rounded-3xl mx-auto backdrop-filter backdrop-blur-lg">
           <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <TextField
-              InputProps={{ sx: { borderRadius: '2rem' } }}
+              InputProps={{ sx: { color: 'white', borderRadius: '2rem' } }}
               required
               onChange={handleChange}
               id="username"
@@ -81,7 +81,7 @@ const SignUp = () => {
               variant="outlined"
             />
             <TextField
-              InputProps={{ sx: { borderRadius: '2rem' } }}
+              InputProps={{ sx: { color: 'white', borderRadius: '2rem' } }}
               required
               onChange={handleChange}
               id="email"
@@ -96,7 +96,7 @@ const SignUp = () => {
               label="Password"
               variant="outlined"
               InputProps={{
-                sx: { borderRadius: '2rem' },
+                sx: { color: 'white', borderRadius: '2rem' },
                 endAdornment: (
                   <button type="button" onClick={handleShowPassword} id="showPassword">
                     {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
@@ -123,7 +123,7 @@ const SignUp = () => {
           {error && <p className="text-red-700">{error}</p>}
         </div>
       </section>
-      <img src={SignUpBg} alt="background" className="w-full h-full object-cover" />
+
     </div>
   )
 }
