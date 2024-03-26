@@ -1,47 +1,41 @@
-import Listing from "../models/listing.model.js";
-import { errorHandler } from "../utils/error.js";
+import Listing from '../models/listing.model.js';
+import { errorHandler } from '../utils/error.js';
 
 export const createListing = async (req, res, next) => {
     try {
-
         const listing = await Listing.create(req.body);
-        return res.status(201).json(listing)
-
-    } catch (err) {
-        next(err)
+        return res.status(201).json(listing);
+    } catch (error) {
+        next(error);
     }
-}
+};
 
 export const deleteListing = async (req, res, next) => {
-
     const listing = await Listing.findById(req.params.id);
 
     if (!listing) {
-        return next(errorHandler(404, "Listing not found!"))
+        return next(errorHandler(404, 'Listing not found!'));
     }
 
     if (req.user.id !== listing.userRef) {
-        return next(errorHandler(401, 'You can only delete your own listings!'))
+        return next(errorHandler(401, 'You can only delete your own listings!'));
     }
 
     try {
-        await Listing.findByIdAndDelete(req.params.id)
-        return res.status(201).json("Successfully Deleted!")
-    } catch (err) {
-        next(err)
+        await Listing.findByIdAndDelete(req.params.id);
+        res.status(200).json('Listing has been deleted!');
+    } catch (error) {
+        next(error);
     }
-}
+};
 
 export const updateListing = async (req, res, next) => {
-
-    console.log(req.params.id)
-    const listing = await Listing.findById(req.params.id)
+    const listing = await Listing.findById(req.params.id);
     if (!listing) {
-        return next(errorHandler(404, "Listing not found!"))
+        return next(errorHandler(404, 'Listing not found!'));
     }
-
     if (req.user.id !== listing.userRef) {
-        return next(errorHandler(401, 'You can only update your own listings!'))
+        return next(errorHandler(401, 'You can only update your own listings!'));
     }
 
     try {
@@ -50,12 +44,11 @@ export const updateListing = async (req, res, next) => {
             req.body,
             { new: true }
         );
-        res.status(200).json(updatedListing)
-
-    } catch (err) {
-        next(err)
+        res.status(200).json(updatedListing);
+    } catch (error) {
+        next(error);
     }
-}
+};
 
 export const getListing = async (req, res, next) => {
     try {
@@ -68,7 +61,6 @@ export const getListing = async (req, res, next) => {
         next(error);
     }
 };
-
 
 export const getListings = async (req, res, next) => {
     try {
@@ -99,7 +91,6 @@ export const getListings = async (req, res, next) => {
         }
 
         const searchTerm = req.query.searchTerm || '';
-
 
         const sort = req.query.sort || 'createdAt';
 

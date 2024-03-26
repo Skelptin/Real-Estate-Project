@@ -279,7 +279,7 @@ const CreateListing = () => {
                             value={formData.regularPrice}
                             onChange={handleChange}
                             min='50'
-                            max='1000000'
+                            max='100000000'
                         />
 
                         {

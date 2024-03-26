@@ -1,3 +1,4 @@
+import ListingItem from '../components/ListingItem';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -102,6 +103,7 @@ const Search = () => {
             const data = await res.json();
             console.log('res', data)
             setListing(data);
+            
             setLoading(false);
         }
 
@@ -192,8 +194,28 @@ const Search = () => {
                     </button>
                 </form>
             </div>
-            <div className=''>
+            <div className='flex-1' >
                 <h1 className='text-3xl mt-5 font-semibold border-b p-3 text-slate-700'>Listing Results</h1>
+                <div className='p-7 flex flex-wrap'>
+                    {
+                        !loading && listing.length === 0 && (
+                            <p className='text-xl text-slate-700'>No listing found!</p>
+                        )
+                    }
+                    {
+                        loading && (
+                            <p className='text-xl text-slate-700 text-center w-full'>
+                                Loading...
+                            </p>
+                        )
+                    }
+
+                    {
+                        !loading && listing && listing.map((listing) => (
+                            <ListingItem key={listing._id} listing={listing} />
+                        ))
+                    }
+                </div>
             </div>
 
         </div>

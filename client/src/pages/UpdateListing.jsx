@@ -359,7 +359,7 @@ const UpdateListing = () => {
                     }
 
                     <button disabled={loading || uploading} className='p-3 mt-5 bg-slate-700 text-white  rounded-lg uppercase hover:opacity-90 disabled:opacity-80'>
-                        {loading ? 'Loading' : 'Update Listing'}
+                        {loading ? 'Updating...' : 'Update Listing'}
                     </button>
                     {error && <p className='text-red-700 text-sm'>{error}</p>}
                     {update && <p className='text-green-700'>Updated Successfully</p>}
