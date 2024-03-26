@@ -6,7 +6,7 @@ const ListingItem = ({ listing }) => {
 
 
     return (
-        <div className='bg-white w-full sm:w-[330px] m-2 shadow-md hover:shadow-xl transition-shadow overflow-hidden rounded-lg'>
+        <div className='bg-white w-full sm:w-[400px] m-2 shadow-md hover:shadow-xl transition-shadow overflow-hidden rounded-lg'>
             <Link to={`/listing/${listing._id}`}>
                 <img src={listing.imageUrls[0]} alt='listing cover'
                     className='h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300    '

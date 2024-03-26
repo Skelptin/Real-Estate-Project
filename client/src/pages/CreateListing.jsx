@@ -97,7 +97,7 @@ const CreateListing = () => {
     }
 
     const handleChange = (e) => {
-        if (e.target.id === 'sell' ||
+        if (e.target.id === 'sale' ||
             e.target.id === 'rent') {
             setFormData({
                 ...formData,
@@ -199,10 +199,10 @@ const CreateListing = () => {
                             <input
                                 className='w-9 h-5'
                                 type='checkbox'
-                                id='sell'
+                                id='sale'
                                 onChange={handleChange}
-                                checked={formData.type === 'sell'}
-                            /> <label>Sell</label>
+                                checked={formData.type === 'sale'}
+                            /> <label>sale</label>
                         </div>
                         <div>
                             <input
